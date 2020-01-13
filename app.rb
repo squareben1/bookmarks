@@ -1,8 +1,7 @@
 # frozen_string_literal: true
-require 'sinatra/base'
-require './lib/bookmarks'
 
 require 'sinatra/base'
+require './lib/bookmarks'
 
 class BookmarkManager < Sinatra::Base
   get '/' do
