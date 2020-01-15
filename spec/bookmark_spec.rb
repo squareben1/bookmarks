@@ -18,4 +18,16 @@ describe Bookmark do
       expect(bookmarks).to include('http://www.google.com')
     end
   end
+
+  describe '#add' do 
+    it 'adds a new bookmark' do 
+
+      Bookmark.add('http://www.facebook.com')
+      bookmarks = Bookmark.all
+      p "-----bookmarks: *#{bookmarks}*------"
+      expect(bookmarks).to include("http://www.facebook.com")
+    end 
+  end 
+
+
 end

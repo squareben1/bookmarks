@@ -10,8 +10,8 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/add_bookmark' do
-    
     session[:bookmark] = params[:bookmark]
+    Bookmark.add(session[:bookmark])
     redirect '/bookmarks'
   end
 
