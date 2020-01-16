@@ -4,7 +4,7 @@ require 'bookmarks'
 
 describe Bookmark do
   describe '#all' do
-    it 'returns all bookamrks' do
+    xit 'returns all bookamrks' do
       connection = PG.connect(dbname: 'bookmark_manager_test')
       
       connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.makersacademy.com');")
@@ -20,12 +20,11 @@ describe Bookmark do
   end
 
   describe '#add' do 
-    it 'adds a new bookmark' do 
-
-      Bookmark.add('http://www.facebook.com')
+    it 'adds a new bookmark and shows the TITLE' do 
+      Bookmark.add('Facebook', 'http://www.facebook.com')
       bookmarks = Bookmark.all
-      p "-----bookmarks: *#{bookmarks}*------"
-      expect(bookmarks).to include("http://www.facebook.com")
+      # p "-----bookmarks: *#{bookmarks}*------"
+      expect(bookmarks).to include("Facebook")
     end 
   end 
 
