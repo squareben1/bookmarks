@@ -1,32 +1,44 @@
 # frozen_string_literal: true
 
 require 'bookmarks'
+require 'database_helpers'
 
 describe Bookmark do
   describe '#all' do
-    xit 'returns all bookamrks' do
+    it 'returns all bookamrks' do
       connection = PG.connect(dbname: 'bookmark_manager_test')
-      
-      connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.makersacademy.com');")
-      connection.exec("INSERT INTO bookmarks (url) VALUES('http://www.destroyallsoftware.com');")
-      connection.exec("INSERT INTO bookmarks (url) VALUES('http://www.google.com');")
-
+      bookmark = Bookmark.add(url: 'http://www.makersacademy.com', title:'Makers Academy')
+      Bookmark.add(url: "http://www.destroyallsoftware.com", title: "Destroy All Software")
+      Bookmark.add(url: "http://www.google.com", title: "Google")
+      # removed '1,' from first position of VALUES
+      # connection.exec("INSERT INTO bookmarks (url, title) VALUES ('http://www.makersacademy.com', 'Makers Academy');")
+      # connection.exec("INSERT INTO bookmarks (url) VALUES('http://www.destroyallsoftware.com');")
+      # connection.exec("INSERT INTO bookmarks (url) VALUES('http://www.google.com');")
       bookmarks = Bookmark.all
-
-      expect(bookmarks).to include('http://www.makersacademy.com')
-      expect(bookmarks).to include('http://www.destroyallsoftware.com')
-      expect(bookmarks).to include('http://www.google.com')
+      expect(bookmarks.length).to eq 3
+      expect(bookmarks.first).to be_a Bookmark
+      expect(bookmarks.first.id).to eq bookmark.id
+      expect(bookmarks.first.title).to eq 'Makers Academy'
+      expect(bookmarks.first.url).to eq 'http://www.makersacademy.com'
     end
   end
 
   describe '#add' do 
-    it 'adds a new bookmark and shows the TITLE' do 
-      Bookmark.add('Facebook', 'http://www.facebook.com')
-      bookmarks = Bookmark.all
-      # p "-----bookmarks: *#{bookmarks}*------"
-      expect(bookmarks).to include("Facebook")
+    it 'adds a new bookmark' do 
+      bookmark = Bookmark.add(title: 'Facebook', url: 'http://www.facebook.com')
+      persisted_data = persisted_data(id: bookmark.id)
+      
+      expect(bookmark).to be_a Bookmark
+      # expect(bookmark.id).to eq persisted_data.first['id']
+      expect(bookmark.title).to eq 'Facebook'
+      expect(bookmark.url).to eq 'http://www.facebook.com'
     end 
   end 
 
+  describe '#delete' do 
+    it 'deletes a record from the database' do 
+      
+    end 
+  end 
 
 end
