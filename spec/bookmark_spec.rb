@@ -37,11 +37,12 @@ describe Bookmark do
 
   describe '#delete' do 
     it 'deletes a record from the database' do 
-      bookmark = Bookmark.add(title: 'Facebook', url: 'http://www.facebook.com')
-      persisted_data = persisted_data(id: bookmark.id)
-      bookmark.delete(delete_target: 'Facebook')
-      expect(bookmark.title).not_to eq 'Facebook'
-      expect(bookmark.url).not_to eq 'http://www.facebook.com'
+      Bookmark.add(title: 'Facebook', url: 'http://www.facebook.com')
+      bookmarks = Bookmark.all
+      # persisted_data = persisted_data(id: bookmark.id)
+      Bookmark.delete(delete_target: 'Facebook')
+      expect(bookmarks).not_to include 'Facebook'
+      expect(bookmarks).not_to include 'http://www.facebook.com'
     end 
   end 
 
